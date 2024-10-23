@@ -30,9 +30,9 @@ def predict():
     df2.at[0, 'GSTkts'] = features[0]
     df2.at[0, 'WSPDkts'] = features[1]
     direction = str(features[2]).upper()
-    try:
+    if 'WDIR_{}'.format(direction) in cols:
         df2.at[0, 'WDIR_{}' .format(direction)] = 1
-    except:
+    else:
         df2.at[0, 'WDIR_{}' .format('ENE')] = 1
     
     prediction = model.predict(df2)
