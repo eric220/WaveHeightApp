@@ -25,7 +25,6 @@ def home():
 @app.route('/predict',methods=['POST'])
 def predict():
     features = [x for x in request.form.values()]
-    print('FEATURES', features[0])
     df2 = pd.DataFrame([np.zeros(len(cols))], columns= cols)
     df2.at[0, 'GSTkts'] = features[0]
     df2.at[0, 'WSPDkts'] = features[1]
@@ -37,7 +36,10 @@ def predict():
     
     prediction = model.predict(df2)
     output = round(prediction[0], 3)
-    return render_template('index.html', prediction_text='Waves are Predicted to be {}ft'.format(output))
+    return render_template('index.html', prediction_text='The waves are Predicted to be {}ft'.format(output),
+                           response_text = 'Given wind speed of {}mph, gusts of {}mph, and wind direction of {}'.format(features[1], features[0], direction)
+                          )
+                         
 
 @app.route('/results',methods=['POST'])
 def results():
